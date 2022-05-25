@@ -1,0 +1,35 @@
+diff --git a/launch_env.sh b/launch_env.sh
+index cb0a0572..caf95071 100755
+--- a/launch_env.sh
++++ b/launch_env.sh
+@@ -19,3 +19,5 @@ if [ -z "$PASSIVE" ]; then
+ fi
+ 
+ export STAGING_ROOT="/data/safe_staging"
++export API_HOST="https://mypilot.com.cn/myPilot"
++export ATHENA_HOST="wss://mypilot.com.cn"
+diff --git a/selfdrive/crash.py b/selfdrive/crash.py
+index e42b7532..d9d26724 100644
+--- a/selfdrive/crash.py
++++ b/selfdrive/crash.py
+@@ -22,6 +22,6 @@ def bind_extra(**kwargs) -> None:
+     sentry_sdk.set_tag(k, v)
+ 
+ def init() -> None:
+-  sentry_sdk.init("https://a8dc76b5bfb34908a601d67e2aa8bcf9@o33823.ingest.sentry.io/77924",
++  sentry_sdk.init("https://575a4596abf640a4b7daa0dd94076729@o1127832.ingest.sentry.io/6170063",
+                   default_integrations=False, integrations=[ThreadingIntegration(propagate_hub=True)],
+                   release=get_version())
+diff --git a/selfdrive/manager/process_config.py b/selfdrive/manager/process_config.py
+index efedcff1..33d602bb 100644
+--- a/selfdrive/manager/process_config.py
++++ b/selfdrive/manager/process_config.py
+@@ -6,7 +6,7 @@ from selfdrive.hardware import EON, TICI, PC
+ WEBCAM = os.getenv("USE_WEBCAM") is not None
+ 
+ procs = [
+-  #DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
++  DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
+   # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
+   NativeProcess("camerad", "selfdrive/camerad", ["./camerad"], unkillable=True, driverview=True),
+   NativeProcess("clocksd", "selfdrive/clocksd", ["./clocksd"]),
